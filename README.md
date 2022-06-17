@@ -1,23 +1,59 @@
-# mycode (Project Title) here add insert
+# dockerGo
+Alta3 Research | https://alta3.com
+@RZFeeser      | A simple Go Webservice
 
-One Paragraph of your project description goes here. Describe what you're trying to do.
-What is the purpose of putting up this repo?
+The purpose of this repository is to provide a simple Go program for container testing within Docker and Kubernetes.
 
-## Getting Started
+This service mimics the Simple Python Flask Service available @:
+https://gitlab.com/alta3research/simpleflaskservice
 
-These instructions will get you a copy of the project up and running on your local machine
-for development and testing purposes. See deployment for notes on how to deploy the project
-on a live system.
 
-### Prerequisites
+The following endpoints are currently available:
+- /endpoint - Description of what is returned
+- /        - HTTP + HTML
+- /ping    - HTTP + JSON
+- /spock   - HTTP + JSON 
+- /env     - HTTP + JSON
+- /alta3 - HTTP + JSON
+- /health - HTTP + JSON (response may be deplayed by setting HEALTH_DELAY)
+   
 
-What things are needed to install the software and how to install them. For now, maybe copy in
-"how to install python and python3 using apt."
+Some behaviors of the webservice may be modified by setting the following environmental variables.
 
-## Built With
+*Default Vaules:*
+- ENV_VAR_TO_SET - Description
+- PORT - The default port to run the webservice on. The default is 9876
+- HEALTH_DELAY - The time in seconds to delay an HTTP response sent to /health. The default is 0. The only reason to change this might be mimicing a failure within a Kubernetes health check.
+- VERSION - The version returned by the server. The default is 0.1.
 
-* [Python](https://www.python.org/) - The coding language used
 
-## Authors
+Builds may be accomplished using the`Dockerfile`and Dockerfile.multistage`.
 
-* **Alex Z ** - *Initial work* - [YourWebsite](https://example.com/)
+#### Getting started
+
+git clone https://github.com/rzfeeser/dockergo
+
+#### Running Dockerfile (building a container)
+
+sudo docker build --tag dockergo .
+
+#### Running Dockerfile.multistage (improving container builds)
+
+(sudo) docker build -t dockergo:multistage -f Dockerfile.multistage .
+
+#### Run the image
+
+(sudo) docker run -d  -p 9876:9876 dockergo:latest
+(sudo) docker run -d  -p 9876:9876 dockergo:multistage
+
+#### Stop all containers
+
+sudo docker stop $(sudo docker ps -aq)
+
+#### Delete all running containers
+
+sudo docker container prune
+
+
+#### Author(s)
+Russell Zachary Feeser - @RZFeeser
